@@ -1,0 +1,22 @@
+create database QMS;
+
+ use QMS;
+
+ create table quizes(quiz_id int primary key,title varchar(25),creator_id int,created_at timestamp);
+
+
+desc quizes;
+
+create table questions(question_id int primary key,quiz_id int,question_text text,option_a varchar(500),option_b varchar(500),option_c varchar(500),option_d varchar(500),correct_option char(1),created_at timestamp,foreign key(quiz_id) references quizes(quiz_id));
+
+desc questions;
+
+create table quiz_attempts(attempt_id int primary key,quiz_id int,student_id int,final_score int,total_quesios int,created_at timestamp,foreign key(quiz_id) references quizes(quiz_id));
+
+ desc quiz_attempts;
+
+ create table users(user_id int primary key,name varchar(150),email varchar(150),password_hash varchar(255),role enum("user","admin"),created_at timestamp);
+
+desc users;
+
+show tables;
