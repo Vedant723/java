@@ -1,0 +1,55 @@
+CREATE DATABASE QMS;
+USE QMS;
+
+-- USERS TABLE
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(150),
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('student','admin') DEFAULT 'student',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- QUIZZES TABLE
+CREATE TABLE quizzes (
+    quiz_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(25),
+    creator_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (creator_id) REFERENCES users(user_id)
+);
+
+-- QUESTIONS TABLE
+CREATE TABLE questions (
+    question_id INT PRIMARY KEY AUTO_INCREMENT,
+    quiz_id INT,
+    question_text TEXT,
+    option_a VARCHAR(500),
+    option_b VARCHAR(500),
+    option_c VARCHAR(500),
+    option_d VARCHAR(500),
+    correct_option CHAR(1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id)
+);
+
+-- QUIZ ATTEMPTS TABLE
+CREATE TABLE quiz_attempts (
+    attempt_id INT PRIMARY KEY AUTO_INCREMENT,
+    quiz_id INT,
+    student_id INT,
+    final_score INT,
+    total_questions INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(quiz_id),
+    FOREIGN KEY (student_id) REFERENCES users(user_id)
+);
+
+-- CHECK STRUCTURE
+DESC users;
+DESC quizzes;
+DESC questions;
+DESC quiz_attempts;
+
+SHOW TABLES;
